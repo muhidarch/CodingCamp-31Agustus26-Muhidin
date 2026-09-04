@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Focus Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+
+    <!-- ===== HEADER / GREETING ===== -->
+    <header class="greeting-section">
+      <div class="greeting-top">
+        <button class="btn-icon" id="themeToggle" title="Toggle dark/light mode">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+
+      <div class="greeting-body">
+        <div id="dateTime" class="date-time"></div>
+        <h1 id="greetingText" class="greeting-text">Good morning!</h1>
+        <div class="name-row">
+          <span id="displayName" class="display-name"></span>
+          <button class="btn-link" id="editNameBtn">✏️ Set name</button>
+        </div>
+      </div>
+
+      <!-- Name modal -->
+      <div id="nameModal" class="modal hidden">
+        <div class="modal-box">
+          <h2>What's your name?</h2>
+          <input type="text" id="nameInput" placeholder="Enter your name…" maxlength="40" />
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="saveNameBtn">Save</button>
+            <button class="btn btn-secondary" id="cancelNameBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-grid">
+
+      <!-- ===== FOCUS TIMER ===== -->
+      <section class="card timer-section" aria-label="Focus Timer">
+        <div class="card-header">
+          <h2>⏱ Focus Timer</h2>
+          <div class="timer-config">
+            <label for="timerMinutes">Min:</label>
+            <input
+              type="number"
+              id="timerMinutes"
+              min="1"
+              max="99"
+              value="25"
+              class="timer-input"
+            />
+          </div>
+        </div>
+
+        <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+        <div class="timer-label" id="timerLabel">Focus Session</div>
+
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="timerStart">&#9654; Start</button>
+          <button class="btn btn-secondary" id="timerStop" disabled>&#9646;&#9646; Stop</button>
+          <button class="btn btn-danger" id="timerReset">&#8635; Reset</button>
+        </div>
+      </section>
+
+      <!-- ===== TO-DO LIST ===== -->
+      <section class="card todo-section" aria-label="To-Do List">
+        <div class="card-header">
+          <h2>&#10003; To-Do List</h2>
+          <div class="todo-controls">
+            <select id="sortSelect" class="sort-select" title="Sort tasks">
+              <option value="default">Sort: Default</option>
+              <option value="az">A &#8594; Z</option>
+              <option value="za">Z &#8594; A</option>
+              <option value="done">Done last</option>
+            </select>
+          </div>
+        </div>
+
+        <form id="todoForm" class="todo-form">
+          <input
+            type="text"
+            id="todoInput"
+            placeholder="Add a new task…"
+            maxlength="120"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <ul id="todoList" class="todo-list" aria-label="Task list"></ul>
+        <p id="todoEmpty" class="empty-msg">No tasks yet. Add one above!</p>
+      </section>
+
+      <!-- ===== QUICK LINKS ===== -->
+      <section class="card links-section" aria-label="Quick Links">
+        <div class="card-header">
+          <h2>&#128279; Quick Links</h2>
+        </div>
+
+        <form id="linkForm" class="link-form">
+          <input type="text" id="linkName" placeholder="Label (e.g. GitHub)" maxlength="30" />
+          <input type="url" id="linkUrl" placeholder="URL (https://…)" />
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <div id="linkList" class="link-list"></div>
+        <p id="linksEmpty" class="empty-msg">No links yet. Add your favourites!</p>
+      </section>
+
+    </main>
+
+    <!-- Edit task modal -->
+    <div id="editModal" class="modal hidden">
+      <div class="modal-box">
+        <h2>Edit Task</h2>
+        <input type="text" id="editInput" maxlength="120" />
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="saveEditBtn">Save</button>
+          <button class="btn btn-secondary" id="cancelEditBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden" aria-live="assertive"></div>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

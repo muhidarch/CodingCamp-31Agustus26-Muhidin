@@ -1,0 +1,608 @@
+/* ============================================================
+   style.css — Focus Dashboard
+   Sections:
+   1. CSS Variables (light & dark themes)
+   2. Reset & Base
+   3. Layout
+   4. Greeting / Header
+   5. Cards
+   6. Focus Timer
+   7. To-Do List
+   8. Quick Links
+   9. Modals
+   10. Toast
+   11. Buttons
+   12. Utilities
+   13. Responsive
+============================================================ */
+
+/* ── 1. CSS Variables ───────────────────────────────────── */
+:root {
+  /* Light theme */
+  --bg:          #f0f4f8;
+  --surface:     #ffffff;
+  --surface-2:   #f7f9fc;
+  --border:      #e2e8f0;
+  --text:        #1a202c;
+  --text-muted:  #718096;
+  --accent:      #4f46e5;
+  --accent-hover:#4338ca;
+  --danger:      #e53e3e;
+  --danger-hover:#c53030;
+  --success:     #38a169;
+  --warning:     #d69e2e;
+
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow:      0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:   0 8px 30px rgba(0,0,0,.14);
+  --transition:  .2s ease;
+
+  --font-sans:   'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg:          #0f172a;
+  --surface:     #1e293b;
+  --surface-2:   #273044;
+  --border:      #334155;
+  --text:        #f1f5f9;
+  --text-muted:  #94a3b8;
+  --accent:      #818cf8;
+  --accent-hover:#6366f1;
+  --danger:      #f87171;
+  --danger-hover:#ef4444;
+  --success:     #4ade80;
+  --warning:     #fbbf24;
+  --shadow:      0 2px 12px rgba(0,0,0,.3);
+  --shadow-lg:   0 8px 30px rgba(0,0,0,.5);
+}
+
+/* ── 2. Reset & Base ────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+}
+
+h1, h2, h3 { line-height: 1.25; }
+ul { list-style: none; }
+a  { color: inherit; text-decoration: none; }
+
+input, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── 3. Layout ──────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+/* ── 4. Greeting / Header ───────────────────────────────── */
+.greeting-section {
+  position: relative;
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  color: #fff;
+  padding: 48px 24px 56px;
+  text-align: center;
+  margin-bottom: 32px;
+  overflow: hidden;
+}
+
+.greeting-section::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+  transition: background var(--transition);
+}
+
+.greeting-top {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.date-time {
+  font-size: 1rem;
+  opacity: .85;
+  letter-spacing: .04em;
+  margin-bottom: 8px;
+}
+
+.greeting-text {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.display-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  opacity: .95;
+}
+
+.btn-link {
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.4);
+  color: #fff;
+  border-radius: 20px;
+  padding: 4px 14px;
+  cursor: pointer;
+  font-size: .82rem;
+  transition: background var(--transition);
+}
+.btn-link:hover { background: rgba(255,255,255,.35); }
+
+/* ── 5. Cards ───────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.card-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── 6. Focus Timer ─────────────────────────────────────── */
+.timer-section {
+  text-align: center;
+}
+
+.timer-config {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.timer-input {
+  width: 56px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  text-align: center;
+  transition: border-color var(--transition);
+}
+.timer-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.timer-display {
+  font-size: clamp(3.5rem, 10vw, 5rem);
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--accent);
+  margin: 12px 0 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-label {
+  font-size: .85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Timer running pulse animation */
+.timer-display.running {
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to   { opacity: .7; }
+}
+
+/* ── 7. To-Do List ──────────────────────────────────────── */
+.todo-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todo-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  transition: border-color var(--transition);
+}
+.todo-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.sort-select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: .82rem;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+.sort-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition), border-color var(--transition), opacity var(--transition);
+  animation: slideIn .2s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.todo-item.done {
+  opacity: .55;
+}
+
+.todo-item.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.task-text {
+  flex: 1;
+  font-size: .95rem;
+  word-break: break-word;
+}
+
+.task-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ── 8. Quick Links ─────────────────────────────────────── */
+.link-form {
+  display: grid;
+  /* Label dan URL ditumpuk vertikal, tombol Add di kanan */
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Label (kolom 1, baris 1) */
+.link-form #linkName {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* URL (kolom 1, baris 2) */
+.link-form #linkUrl {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* Tombol Add (kolom 2, span 2 baris) */
+.link-form button {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: stretch;
+}
+
+.link-form input {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  transition: border-color var(--transition);
+}
+.link-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: .88rem;
+  transition: background var(--transition), border-color var(--transition);
+  animation: slideIn .2s ease;
+}
+
+.link-chip a {
+  color: var(--accent);
+  font-weight: 600;
+}
+.link-chip a:hover { text-decoration: underline; }
+
+.link-chip .chip-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: .85rem;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color var(--transition);
+}
+.link-chip .chip-delete:hover { color: var(--danger); }
+
+/* ── 9. Modals ──────────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(3px);
+  animation: fadeIn .15s ease;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: min(420px, 90vw);
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn .15s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(.94); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.modal-box h2 {
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  margin-bottom: 20px;
+  transition: border-color var(--transition);
+}
+.modal-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ── 10. Toast ──────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--surface);
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-size: .9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  animation: toastIn .25s ease;
+  white-space: nowrap;
+}
+
+.toast.hidden { display: none; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── 11. Buttons ────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: .88rem;
+  cursor: pointer;
+  transition: background var(--transition), opacity var(--transition), transform .1s;
+  white-space: nowrap;
+}
+.btn:active { transform: scale(.96); }
+.btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.btn-secondary {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--border); }
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
+
+/* Icon-only button (theme toggle) */
+.btn-icon {
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.35);
+  color: #fff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+.btn-icon:hover { background: rgba(255,255,255,.35); }
+
+/* Small icon button for task actions */
+.btn-sm {
+  padding: 5px 10px;
+  font-size: .78rem;
+  border-radius: 6px;
+}
+
+/* ── 12. Utilities ──────────────────────────────────────── */
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .9rem;
+  padding: 16px 0 4px;
+}
+
+/* ── 13. Responsive ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px 40px;
+  }
+
+  .link-form {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+  .link-form #linkName  { grid-column: 1; grid-row: 1; }
+  .link-form #linkUrl   { grid-column: 1; grid-row: 2; }
+  .link-form button     { grid-column: 2; grid-row: 1 / 3; align-self: stretch; }
+
+  .greeting-section {
+    padding: 40px 16px 52px;
+  }
+
+  .timer-display {
+    font-size: 3.5rem;
+  }
+}
